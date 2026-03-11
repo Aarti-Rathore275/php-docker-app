@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+ install:
+  runtime-versions:
+   docker: 20
+
+ build:
+  commands:
+   - docker build -t php-app .
+   - docker tag php-app:latest 202533526587.dkr.ecr.us-east-1.amazonaws.com/php-docker-app
+
+ post_build:
+  commands:
+   - docker push 202533526587.dkr.ecr.us-east-1.amazonaws.com/php-docker-app
