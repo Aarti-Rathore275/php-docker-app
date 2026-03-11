@@ -2,5 +2,7 @@ version: 0.0
 os: linux
 
 hooks:
- ApplicationStart:
-  - location: scripts/start_container.sh
+  ApplicationStart:
+    - location: scripts/start_container.sh
+      timeout: 300
+      runas: root

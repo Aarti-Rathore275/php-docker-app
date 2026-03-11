@@ -1,15 +1,22 @@
 version: 0.2
 
 phases:
- install:
-  runtime-versions:
-   docker: 20
+  install:
+    runtime-versions:
+      docker: 20
 
- build:
-  commands:
-   - docker build -t php-app .
-   - docker tag php-app:latest 202533526587.dkr.ecr.us-east-1.amazonaws.com/php-docker-app
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 202533526587.dkr.ecr.us-east-1.amazonaws.com
 
- post_build:
-  commands:
-   - docker push 202533526587.dkr.ecr.us-east-1.amazonaws.com/php-docker-app
+  build:
+    commands:
+      - echo Building Docker image
+      - docker build -t php-app .
+
+  post_build:
+    commands:
+      - echo Tagging and pushing image
+      - docker tag php-app:latest 202533526587.dkr.ecr.us-east-1.amazonaws.com/php-docker-app:latest
+      - docker push 202533526587.dkr.ecr.us-east-1.amazonaws.com/php-docker-app:latest
