@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM public.ecr.aws/docker/library/php:8.1-apache
 
 RUN docker-php-ext-install mysqli
 
